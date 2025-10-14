@@ -124,7 +124,7 @@ public class CommandProcessorUser implements CommandProcess {
                     System.out.println("Error: " + e.getMessage());
                 }
             }
-            case "help" -> {
+            case "help" ->
                 System.out.println("""
                         create <telegramId> <username> <name> <lastname> - create a user
                         updateUsername <telegramId> <newUsername> - update username
@@ -132,10 +132,11 @@ public class CommandProcessorUser implements CommandProcess {
                         updateLastname <telegramId> <newLastname> - update lastname
                         delete <telegramId> - delete a user
                         read <telegramId> - get a user
+                        metric <type metric> - show metrics
                         help - show this help
                         exit - close app
                         """);
-            } case "metric" ->{
+            case "metric" ->{
                 if (tokens.length != 2) {
                     System.out.println("Error: 'metric' requires 1 argument: metric name");
                     break;
@@ -143,9 +144,8 @@ public class CommandProcessorUser implements CommandProcess {
 
                 meterRegistry.getMeters().stream()
                         .filter(m -> m.getId().getName().equals(tokens[1]))
-                        .findFirst().ifPresentOrElse(m -> {
-                            m.measure().forEach(stat -> System.out.println(stat.getStatistic() + "=" + stat.getValue()));
-                        },
+                        .findFirst().ifPresentOrElse(m ->
+                            m.measure().forEach(stat -> System.out.println(stat.getStatistic() + "=" + stat.getValue())),
                                 () -> System.out.println("Metric "+ tokens[1] +" not found"));
             }
             default -> System.out.println("Invalid command. Type 'help' to see the list of commands.");

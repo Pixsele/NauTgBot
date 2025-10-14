@@ -38,7 +38,7 @@ public class UserRepository implements UserCRUDRepository<UserEntity,Long> {
     public void update(UserEntity entity) {
         users.stream()
                 .filter(user -> Objects.equals(user.getId(), entity.getId()))
-                .findFirst().ifPresent(user -> {users.set(users.indexOf(user), entity);});
+                .findFirst().ifPresent(user -> users.set(users.indexOf(user), entity));
     }
 
     @Override

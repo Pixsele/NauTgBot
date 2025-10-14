@@ -83,7 +83,9 @@ public class UserServiceImp implements UserService {
 
     @PostConstruct
     public void printApp(){
-        System.out.println("App name:" + appConfig.getAppName());
-        System.out.println("App Version:" + appConfig.getAppVersion());
-    };
+        System.out.println("App name: " + appConfig.getAppName());
+        System.out.println("App Version: " + appConfig.getAppVersion());
+        System.out.println("type help - for view commands");
+        System.out.println("type exit - to close app");
+    }
 }
