@@ -1,5 +1,10 @@
 package ru.vorobyev.NauJava_TgBotDelivery.entity;
 
+/**
+ * Сущность пользователя Telegram, содержащая основную информацию (telegramId, никнейм, имя, фамилию).
+ * Используется для представления пользователей внутри системы доставки.
+ */
+
 public class UserEntity {
 
     //telegramId
@@ -8,6 +13,15 @@ public class UserEntity {
     private String name;
     private String lastname;
 
+    public UserEntity() {
+    }
+
+    public UserEntity(Long id, String username, String name, String lastname) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.lastname = lastname;
+    }
 
     public Long getId() {
         return id;

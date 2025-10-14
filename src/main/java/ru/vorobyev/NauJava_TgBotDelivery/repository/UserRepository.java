@@ -4,16 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.vorobyev.NauJava_TgBotDelivery.entity.UserEntity;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-@Component
-public class UserRepository implements RepositoryCRUD<UserEntity,Long> {
+/**
+ * Репозиторий для управления пользователями системы доставки.
+ *
+ * <p>Реализует базовые CRUD-операции над объектами {@link UserEntity},
+ * используя список, хранящийся в памяти приложения.
+ */
 
-    private final ArrayList<UserEntity> users;
+@Component
+public class UserRepository implements UserCRUDRepository<UserEntity,Long> {
+
+    private final List<UserEntity> users;
 
     @Autowired
-    public UserRepository(ArrayList<UserEntity> users) {
+    public UserRepository(List<UserEntity> users) {
         this.users = users;
     }
 
@@ -24,21 +31,14 @@ public class UserRepository implements RepositoryCRUD<UserEntity,Long> {
 
     @Override
     public UserEntity read(Long aLong) {
-        for (UserEntity user : users) {
-            if (Objects.equals(user.getId(), aLong)) {
-                return user;
-            }
-        }
-        return null;
+        return users.stream().filter(user -> Objects.equals(user.getId(), aLong)).findFirst().orElse(null);
     }
 
     @Override
     public void update(UserEntity entity) {
-        for(int i=0; i<users.size(); i++){
-            if(Objects.equals(users.get(i).getId(), entity.getId())){
-                users.set(i, entity);
-            }
-        }
+        users.stream()
+                .filter(user -> Objects.equals(user.getId(), entity.getId()))
+                .findFirst().ifPresent(user -> {users.set(users.indexOf(user), entity);});
     }
 
     @Override

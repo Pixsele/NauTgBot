@@ -1,18 +1,30 @@
 package ru.vorobyev.NauJava_TgBotDelivery;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.vorobyev.NauJava_TgBotDelivery.entity.UserEntity;
+import ru.vorobyev.NauJava_TgBotDelivery.service.UserService;
 import ru.vorobyev.NauJava_TgBotDelivery.service.UserServiceImp;
 
-@Component
-public class CommandProcessor {
+/**
+ * Компонент для обработки текстовых команд, поступающих в приложение.
+ *
+ * <p>Парсит входную команду и делегирует выполнение соответствующим
+ * методам {@link UserServiceImp}. Предназначен для упрощённой обработки команд
+ * из консоли или тестового интерфейса бота.
+ */
 
-    private final UserServiceImp userServiceImp;
+@Component
+public class CommandProcessorUser implements CommandProcess {
+
+    private final UserService userService;
+    private final MeterRegistry meterRegistry;
 
     @Autowired
-    public CommandProcessor(UserServiceImp userServiceImp) {
-        this.userServiceImp = userServiceImp;
+    public CommandProcessorUser(UserServiceImp userServiceImp, MeterRegistry meterRegistry) {
+        this.userService = userServiceImp;
+        this.meterRegistry = meterRegistry;
     }
 
     public void processCommand(String command) {
@@ -29,7 +41,7 @@ public class CommandProcessor {
                 }
                 try {
                     Long telegramId = Long.valueOf(tokens[1]);
-                    userServiceImp.createUser(telegramId, tokens[2], tokens[3], tokens[4]);
+                    userService.createUser(telegramId, tokens[2], tokens[3], tokens[4]);
                     System.out.println("User successfully created");
                 } catch (NumberFormatException e) {
                     System.out.println("Error: telegramId must be a number");
@@ -44,7 +56,7 @@ public class CommandProcessor {
                 }
                 try {
                     Long telegramId = Long.valueOf(tokens[1]);
-                    userServiceImp.updateUsername(telegramId, tokens[2]);
+                    userService.updateUsername(telegramId, tokens[2]);
                     System.out.println("Username successfully updated");
                 } catch (NumberFormatException e) {
                     System.out.println("Error: telegramId must be a number");
@@ -59,7 +71,7 @@ public class CommandProcessor {
                 }
                 try {
                     Long telegramId = Long.valueOf(tokens[1]);
-                    userServiceImp.updateName(telegramId, tokens[2]);
+                    userService.updateName(telegramId, tokens[2]);
                     System.out.println("Name successfully updated");
                 } catch (NumberFormatException e) {
                     System.out.println("Error: telegramId must be a number");
@@ -74,7 +86,7 @@ public class CommandProcessor {
                 }
                 try {
                     Long telegramId = Long.valueOf(tokens[1]);
-                    userServiceImp.updateLastname(telegramId, tokens[2]);
+                    userService.updateLastname(telegramId, tokens[2]);
                     System.out.println("Lastname successfully updated");
                 } catch (NumberFormatException e) {
                     System.out.println("Error: telegramId must be a number");
@@ -89,7 +101,7 @@ public class CommandProcessor {
                 }
                 try {
                     Long telegramId = Long.valueOf(tokens[1]);
-                    userServiceImp.deleteUserById(telegramId);
+                    userService.deleteUserById(telegramId);
                     System.out.println("User deleted");
                 } catch (NumberFormatException e) {
                     System.out.println("Error: telegramId must be a number");
@@ -104,7 +116,7 @@ public class CommandProcessor {
                 }
                 try {
                     Long telegramId = Long.valueOf(tokens[1]);
-                    UserEntity user = userServiceImp.getEntityById(telegramId);
+                    UserEntity user = userService.getEntityById(telegramId);
                     System.out.println(user != null ? user : "User not found");
                 } catch (NumberFormatException e) {
                     System.out.println("Error: telegramId must be a number");
@@ -123,6 +135,18 @@ public class CommandProcessor {
                         help - show this help
                         exit - close app
                         """);
+            } case "metric" ->{
+                if (tokens.length != 2) {
+                    System.out.println("Error: 'metric' requires 1 argument: metric name");
+                    break;
+                }
+
+                meterRegistry.getMeters().stream()
+                        .filter(m -> m.getId().getName().equals(tokens[1]))
+                        .findFirst().ifPresentOrElse(m -> {
+                            m.measure().forEach(stat -> System.out.println(stat.getStatistic() + "=" + stat.getValue()));
+                        },
+                                () -> System.out.println("Metric "+ tokens[1] +" not found"));
             }
             default -> System.out.println("Invalid command. Type 'help' to see the list of commands.");
         }

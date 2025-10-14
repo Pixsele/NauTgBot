@@ -5,11 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vorobyev.NauJava_TgBotDelivery.AppConfig;
 import ru.vorobyev.NauJava_TgBotDelivery.entity.UserEntity;
+import ru.vorobyev.NauJava_TgBotDelivery.repository.UserCRUDRepository;
 import ru.vorobyev.NauJava_TgBotDelivery.repository.UserRepository;
+
+/**
+ * Реализация сервиса {@link UserService} для управления пользователями Telegram.
+ *
+ * <p>Сервис выполняет операции CRUD над объектами {@link UserEntity},
+ * используя {@link UserCRUDRepository} для доступа к данным.
+ */
 
 @Service
 public class UserServiceImp implements UserService {
-    private final UserRepository userRepository;
+    private final UserCRUDRepository<UserEntity,Long> userRepository;
     private final AppConfig appConfig;
 
     @Autowired
@@ -23,15 +31,7 @@ public class UserServiceImp implements UserService {
         if(userRepository.read(telegramId) != null) {
             throw new IllegalArgumentException("User with id " + telegramId + " already exists");
         }
-
-        UserEntity newUser = new UserEntity();
-
-        newUser.setId(telegramId);
-        newUser.setUsername(username);
-        newUser.setName(name);
-        newUser.setLastname(lastname);
-
-        userRepository.create(newUser);
+        userRepository.create(new UserEntity(telegramId, username, name, lastname));
     }
 
     @Override
