@@ -31,7 +31,7 @@ public class CommandReader {
                     System.out.print("> ");
                     String command = scanner.nextLine();
                     if(Objects.equals(command, "exit")){
-                        break;
+                        System.exit(0);
                     }
 
                     commandProcessor.processCommand(command);
