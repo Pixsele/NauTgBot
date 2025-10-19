@@ -27,7 +27,8 @@ public class CommandReader {
     public CommandLineRunner commandLineRunner(){
         return args ->{
             try (Scanner scanner = new Scanner(System.in)) {
-                while (true){
+                boolean status = false;
+                while (status){
                     System.out.print("> ");
                     String command = scanner.nextLine();
                     if(Objects.equals(command, "exit")){
