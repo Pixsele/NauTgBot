@@ -1,4 +1,4 @@
-package ru.vorobyev.NauJava_TgBotDelivery.repository;
+package ru.vorobyev.NauJava_TgBotDelivery.repositoryOther;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

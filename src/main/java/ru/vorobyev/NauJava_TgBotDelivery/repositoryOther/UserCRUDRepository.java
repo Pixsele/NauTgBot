@@ -1,4 +1,4 @@
-package ru.vorobyev.NauJava_TgBotDelivery.repository;
+package ru.vorobyev.NauJava_TgBotDelivery.repositoryOther;
 
 /**
  * Базовый интерфейс CRUD-операций над сущностями пользователей.
