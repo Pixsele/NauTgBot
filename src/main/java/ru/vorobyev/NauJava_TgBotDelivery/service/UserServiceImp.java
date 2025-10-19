@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vorobyev.NauJava_TgBotDelivery.AppConfig;
 import ru.vorobyev.NauJava_TgBotDelivery.entity.UserEntity;
-import ru.vorobyev.NauJava_TgBotDelivery.repository.UserCRUDRepository;
-import ru.vorobyev.NauJava_TgBotDelivery.repository.UserRepository;
+import ru.vorobyev.NauJava_TgBotDelivery.repositoryOther.UserCRUDRepository;
+import ru.vorobyev.NauJava_TgBotDelivery.repositoryOther.UserRepository;
 
 /**
  * Реализация сервиса {@link UserService} для управления пользователями Telegram.

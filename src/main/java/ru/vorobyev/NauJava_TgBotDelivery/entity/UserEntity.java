@@ -1,23 +1,37 @@
 package ru.vorobyev.NauJava_TgBotDelivery.entity;
 
+import jakarta.persistence.*;
+
 /**
  * Сущность пользователя Telegram, содержащая основную информацию (telegramId, никнейм, имя, фамилию).
  * Используется для представления пользователей внутри системы доставки.
  */
-
+@Entity
+@Table(name="users")
 public class UserEntity {
 
     //telegramId
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String username;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String lastname;
 
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String username, String name, String lastname) {
-        this.id = id;
+    public UserEntity(String username, String name, String lastname) {
+        this.username = username;
+        this.name = name;
+        this.lastname = lastname;
+    }
+
+    public UserEntity(Long telegramId, String username, String name, String lastname) {
+        this.id=telegramId;
         this.username = username;
         this.name = name;
         this.lastname = lastname;

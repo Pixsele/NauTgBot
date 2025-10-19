@@ -9,5 +9,4 @@ class NauJavaTgBotDeliveryApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
