@@ -6,6 +6,12 @@ import ru.vorobyev.NauJava_TgBotDelivery.entity.enums.CourierStatus;
 
 import java.math.BigDecimal;
 
+/**
+ * Сущность курьера.
+ * <p>
+ * Содержит основную информацию о курьере, включая имя, телефон, статус и геопозицию.
+ */
+
 @Entity
 @Table(name = "couriers")
 public class CourierEntity {

@@ -4,6 +4,12 @@ package ru.vorobyev.NauJava_TgBotDelivery.entity;
 import jakarta.persistence.*;
 import ru.vorobyev.NauJava_TgBotDelivery.entity.enums.MenuItemStatus;
 
+/**
+ * Сущность элемента меню предприятия.
+ * <p>
+ * Содержит информацию о названии, статусе блюда и предприятии, которому принадлежит.
+ */
+
 @Entity
 @Table(name = "menu_items")
 public class MenuItemEntity {

@@ -8,6 +8,12 @@ import ru.vorobyev.NauJava_TgBotDelivery.entity.enums.EnterpriseType;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 
+/**
+ * Сущность предприятия (магазина, кафе, ресторана и т.д.).
+ * <p>
+ * Содержит основную информацию об организации, включая адрес, тип, статус и координаты.
+ */
+
 @Entity
 @Table(name = "enterprises")
 public class EnterpriseEntity {

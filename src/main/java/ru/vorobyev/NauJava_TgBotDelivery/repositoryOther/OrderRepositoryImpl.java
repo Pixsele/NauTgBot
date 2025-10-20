@@ -13,6 +13,13 @@ import ru.vorobyev.NauJava_TgBotDelivery.entity.enums.OrderStatus;
 
 import java.util.List;
 
+/**
+ * Реализация пользовательских запросов к репозиторию заказов.
+ * <p>
+ * Использует {@link EntityManager} и {@link jakarta.persistence.criteria.CriteriaQuery}
+ * для построения гибких динамических запросов.
+ */
+
 @Repository
 public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
@@ -23,8 +30,15 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         this.em = em;
     }
 
+    /**
+     * Возвращает список заказов по указанным статусу и адресу доставки.
+     * @param status  статус заказа (строковое значение, например, "CREATED" или "DELIVERED")
+     * @param address адрес доставки заказа
+     * @return список заказов, удовлетворяющих условиям
+     */
+
     @Override
-    public List<OrderEntity> findByStatusAndAddress(OrderStatus status, String address) {
+    public List<OrderEntity> findByStatusAndAddress(String status, String address) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<OrderEntity> cq = cb.createQuery(OrderEntity.class);
@@ -38,13 +52,20 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         return em.createQuery(cq).getResultList();
     }
 
+    /**
+     * Возвращает список заказов, доставленных указанным курьером.
+     *
+     * @param courierId идентификатор курьера
+     * @return список доставленных заказов, выполненных данным курьером
+     */
+
     @Override
     public List<OrderEntity> findDeliveredOrdersByCourierId(Long courierId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<OrderEntity> cq = cb.createQuery(OrderEntity.class);
 
         Root<OrderEntity> order = cq.from(OrderEntity.class);
-        Predicate predicateCourierId = cb.equal(order.get("courierId"), courierId);
+        Predicate predicateCourierId = cb.equal(order.get("courier").get("id"), courierId);
         Predicate predicate = cb.equal(order.get("status"), OrderStatus.DELIVERED);
 
         cq.select(order).where(cb.and(predicate, predicateCourierId));

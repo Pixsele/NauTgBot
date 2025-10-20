@@ -2,6 +2,13 @@ package ru.vorobyev.NauJava_TgBotDelivery.entity;
 
 import jakarta.persistence.*;
 
+/**
+ * Сущность элемента заказа.
+ * <p>
+ * Представляет отдельную позицию в заказе, содержащую информацию о конкретном блюде и его количестве.
+ * Связана с {@link OrderEntity} (многие к одному) и {@link MenuItemEntity} (многие к одному).
+ */
+
 @Entity
 @Table(name = "order_items")
 public class OrderItemEntity {

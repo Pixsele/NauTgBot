@@ -6,6 +6,13 @@ import ru.vorobyev.NauJava_TgBotDelivery.entity.enums.OrderStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Сущность заказа.
+ * <p>
+ * Содержит основную информацию о заказе, включая статус, адрес доставки,
+ * пользователя, предприятие, курьера и временные метки создания и доставки.
+ */
+
 @Entity
 @Table(name = "orders")
 public class OrderEntity {
