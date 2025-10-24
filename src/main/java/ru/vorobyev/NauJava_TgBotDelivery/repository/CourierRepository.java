@@ -1,6 +1,7 @@
 package ru.vorobyev.NauJava_TgBotDelivery.repository;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 import ru.vorobyev.NauJava_TgBotDelivery.entity.CourierEntity;
 
@@ -11,5 +12,6 @@ import ru.vorobyev.NauJava_TgBotDelivery.entity.CourierEntity;
  */
 
 @Repository
+@RepositoryRestResource(path = "courier")
 public interface CourierRepository extends CrudRepository<CourierEntity,Long> {
 }

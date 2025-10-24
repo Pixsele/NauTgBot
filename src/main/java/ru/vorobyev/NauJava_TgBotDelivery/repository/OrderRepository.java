@@ -3,6 +3,7 @@ package ru.vorobyev.NauJava_TgBotDelivery.repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 import ru.vorobyev.NauJava_TgBotDelivery.entity.OrderEntity;
 
@@ -16,6 +17,7 @@ import java.util.List;
  */
 
 @Repository
+@RepositoryRestResource(path = "order")
 public interface OrderRepository extends CrudRepository<OrderEntity, Long> {
 
     /**
